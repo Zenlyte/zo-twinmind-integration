@@ -11,14 +11,19 @@ const BACKUP_BASE = "/home/workspace/Data/Backups/TwinMind";
 // Get date argument or default to yesterday in MST
 function getTargetDate(): string {
   const args = process.argv.slice(2);
-  if (args[0]) {
-    return args[0];
+  const dateArg = args[0];
+
+  let runDate: string;
+  if (dateArg) {
+    runDate = dateArg;
+  } else {
+    // Get yesterday's date in local timezone
+    const now = new Date();
+    const localDate = new Date(now.toLocaleString("en-US"));
+    localDate.setDate(localDate.getDate() - 1); // Yesterday
+    runDate = localDate.toISOString().split("T")[0];
   }
-  // Get yesterday in MST/MDT timezone
-  const now = new Date();
-  const mstDate = new Date(now.toLocaleString("en-US", { timeZone: "America/Edmonton" }));
-  mstDate.setDate(mstDate.getDate() - 1);
-  return mstDate.toISOString().split("T")[0];
+  return runDate;
 }
 
 async function fetchGmailDigest(date: string): Promise<{ subject: string; body: string; from: string } | null> {

@@ -3,7 +3,7 @@ name: twinmind
 description: Query TwinMind memories, meeting summaries, transcripts, and action items via MCP. Use when the user asks about past meetings, conversations, recorded notes, or TwinMind data.
 category: Data & Integrations
 metadata:
-  author: curtastrophe.zo.computer
+  author: <your-zo-handle>.zo.computer
   emoji: 🧠
   emojis: ["🧠", "🎙️", "📝"]
 tags:
@@ -79,12 +79,12 @@ The `digest` command generates a daily summary:
 - The CLI auto-refreshes the access token at 80% of expiry
 - mcporter config at `/home/workspace/config/mcporter.json` is updated with each new access token
 - OAuth client ID: `mcp-client-qoy8xxYPyku_nYGkYiulrg`
-- OAuth callback route: `https://curtastrophe.zo.space/api/twinmind-callback`
+- OAuth callback route: `https://<your-handle>.zo.space/api/twinmind-callback`
 
 ## Re-authentication
 
 If the refresh token expires (~30 days without use), re-authenticate:
 1. Generate a new PKCE auth URL using the client ID above and the callback redirect URI
 2. Open the auth URL in a browser, sign in with Google/Apple
-3. The callback at `https://curtastrophe.zo.space/api/twinmind-callback` captures the authorization code to `/tmp/twinmind_oauth_code.json`
+3. The callback at `https://<your-handle>.zo.space/api/twinmind-callback` captures the authorization code to `/tmp/twinmind_oauth_code.json`
 4. Exchange the code for tokens and save to `/home/workspace/.secrets/twinmind_token.json`

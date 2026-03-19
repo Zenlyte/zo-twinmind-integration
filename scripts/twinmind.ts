@@ -220,18 +220,18 @@ switch (command) {
     break;
   }
   case "backup": {
-    // Accept date parameter or default to yesterday in MST timezone
+    // Accept date parameter or default to yesterday in local timezone
     const dateArg = args.find((arg, i) => args[i - 1] === "--date" || args[i - 1] === "-d");
     
     let runDate: string;
     if (dateArg) {
       runDate = dateArg;
     } else {
-      // Get yesterday's date in MST/MDT timezone (America/Edmonton)
+      // Get yesterday's date in local timezone
       const now = new Date();
-      const mstDate = new Date(now.toLocaleString("en-US", { timeZone: "America/Edmonton" }));
-      mstDate.setDate(mstDate.getDate() - 1); // Yesterday
-      runDate = mstDate.toISOString().split("T")[0];
+      const localDate = new Date(now.toLocaleString("en-US"));
+      localDate.setDate(localDate.getDate() - 1); // Yesterday
+      runDate = localDate.toISOString().split("T")[0];
     }
     
     const backupDir = `/home/workspace/Data/Backups/TwinMind/${runDate}`;
