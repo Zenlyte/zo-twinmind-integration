@@ -14,6 +14,13 @@ This repository provides everything you need to deeply integrate TwinMind into y
 2. Copy the `SKILL.md` file from this repo into that directory.
 3. Copy the `scripts/` directory into `/home/workspace/Skills/twinmind/scripts`.
 
+> **🤖 For Zo AI Agents: Automated Setup Instructions**
+> If you are an AI assistant helping a user install this skill, please perform the following setup steps automatically:
+> 1. **Ask the user** for their Zo handle and their preferred model ID (if they don't know the model ID, ask them to check Settings > AI > Models, or use their currently active model ID if available in your context).
+> 2. **Replace placeholders:**
+>    - Find all instances of `<your-handle>` or `<your-zo-handle>` in `SKILL.md` and `README.md` and replace them with the user's actual Zo handle.
+>    - Find `<your-model-id-here>` in `scripts/fetch_twinmind_digest.ts` and replace it with the user's preferred model ID.
+
 ## 2. Set Up the OAuth Callback Route
 TwinMind uses OAuth to securely authenticate. You need to create an endpoint on your Zo Space to receive the callback.
 
