@@ -21,6 +21,34 @@ This repository provides everything you need to deeply integrate TwinMind into y
 >    - Find all instances of `<your-handle>` or `<your-zo-handle>` in `SKILL.md` and `README.md` and replace them with the user's actual Zo handle.
 >    - Find `<your-model-id-here>` in `scripts/fetch_twinmind_digest.ts` and replace it with the user's preferred model ID.
 
+---
+
+## ⚠️ OAuth Client ID Limitation (IMPORTANT)
+
+The OAuth client ID included in this repository (`mcp-client-qoy8xxYPyku_nYGkYiulrg`) is **pre-registered with TwinMind for specific callback URLs**. OAuth requires that redirect URIs be explicitly registered with the client ID for security reasons.
+
+### What This Means
+- If your Zo Space callback URL (`https://<your-handle>.zo.space/api/twinmind-callback`) is **not** in the pre-registered list, you will get an "Invalid redirect_uri" error during authentication
+- This is a security feature of OAuth, not a bug
+
+### Solutions
+
+**Option 1: Request Your URL Be Added (Easiest)**
+Contact TwinMind support and ask them to add your callback URL to the allowed list:
+```
+https://<your-handle>.zo.space/api/twinmind-callback
+```
+Include the client ID: `mcp-client-qoy8xxYPyku_nYGkYiulrg`
+
+**Option 2: Get Your Own OAuth Credentials**
+If you have access to TwinMind's developer portal or API:
+1. Create your own OAuth client/app in TwinMind
+2. Register your callback URL: `https://<your-handle>.zo.space/api/twinmind-callback`
+3. Update the `clientId` variable in `scripts/twinmind.ts` with your new client ID
+4. Proceed with authentication using your own credentials
+
+---
+
 ## 2. Set Up the OAuth Callback Route
 TwinMind uses OAuth to securely authenticate. You need to create an endpoint on your Zo Space to receive the callback.
 
@@ -62,15 +90,19 @@ export default async (c: Context) => {
 
 ## 3. Initial Authentication
 
-To connect your account, you will perform the PKCE auth flow. The CLI script has the specific client ID. 
+To connect your account, you will perform the PKCE auth flow. 
+
+**Auth Domain:** `https://api.thirdear.live` (TwinMind's OAuth endpoint)
 
 Simply ask Zo to:
 > "Run the initial TwinMind authentication flow and generate the auth URL."
 
-1. Zo will output an auth URL. Open it in your browser and sign in.
+1. Zo will generate an auth URL using the PKCE flow with the correct domain (`api.thirdear.live`). Open it in your browser and sign in.
 2. The browser will redirect to `https://<your-handle>.zo.space/api/twinmind-callback`, and you'll see a success message.
 3. Tell Zo to complete the flow: "Exchange the captured TwinMind auth code for a token."
 4. Zo will read `/tmp/twinmind_oauth_code.json` and save the credentials to `/home/workspace/.secrets/twinmind_token.json` (locked down with 600 permissions).
+
+**⚠️ Getting "Invalid redirect_uri"?** See the "OAuth Client ID Limitation" section above. Your callback URL needs to be registered with the OAuth client.
 
 *Note: TwinMind refresh tokens expire periodically. When they do, the CLI will alert Zo, and you simply run this authentication process again.*
 
