@@ -79,6 +79,8 @@ Example usage once configured:
 npx mcporter call twinmind.summary_search keywords='["project"]' limit=5
 ```
 
+*(Note: TwinMind's direct MCP endpoint relies on HTTP POST requests. If you encounter SSE content-type errors with `mcporter`, stick to using the CLI script directly which handles the protocol natively).*
+
 ## 5. Automated Backups & Agents
 
 The script provides a native backup and digest CLI tool. You can ask Zo to create a **Scheduled Agent** to run daily.
@@ -117,3 +119,7 @@ bun run Skills/twinmind/scripts/twinmind.ts digest 2026-03-03
 
 ## Security
 This integration saves all tokens in your secure `~/.secrets` folder. It uses Zo's internal filesystem to store local backups and limits public exposure via Zo Space callback routes.
+
+## Dependencies
+- **[Bun](https://bun.sh/):** Required runtime for the TypeScript CLI scripts.
+- **[mcporter](https://www.npmjs.com/package/mcporter):** Optional. Used to expose or test the MCP server configuration locally (`npx mcporter`).
