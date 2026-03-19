@@ -40,7 +40,7 @@ async function fetchGmailDigest(date: string): Promise<{ subject: string; body: 
     },
     body: JSON.stringify({
       input: `Search Gmail for: "${searchQuery}". If found, get the full email content including the HTML body. Return the email subject, from address, and full HTML body as JSON with keys: subject, from, body.`,
-      model_name: "byok:5ac0282d-13f7-4cd5-8ce4-f11b172e0230",
+      model_name: "byok:<your-model-id-here>",
     }),
   });
 
